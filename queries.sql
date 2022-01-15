@@ -43,7 +43,7 @@ SELECT
 FROM
      animals
 WHERE
-     NOT NEUTERED;
+     NEUTERED != true;
 
 SELECT
      *

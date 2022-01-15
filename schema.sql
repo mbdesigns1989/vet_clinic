@@ -1,6 +1,6 @@
 /* Database schema to keep the structure of entire database. */
 CREATE TABLE animals (
-    ID INT GENERATED ALWAYS AS IDENTITY,
+    ID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
     NAME VARCHAR(500),
     DATE_OF_BIRTH DATE,
     ESCAPE_ATTEMPTS INT,

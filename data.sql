@@ -108,3 +108,66 @@ INSERT INTO
      )
 VALUES
      ('Blossom', '1998-10-13', 17, true, 3);
+
+INSERT INTO
+     owners (FULL_NAME, AGE)
+VALUES
+     ('Sam Smith', 34),
+     ('Jennifer Orwell', 19),
+     ('Bob', 45),
+     ('Melody', 77),
+     ('Dean Winchester', 14),
+     ('Jodie Whittaker', 38);
+
+INSERT INTO
+     species (NAME)
+VALUES
+     ('Pokemon'),
+     ('Digimon');
+
+UPDATE
+     animals
+SET
+     species_id = 1;
+
+UPDATE
+     animals
+SET
+     species_id = 2
+WHERE
+     NAME LIKE '%mon';
+
+UPDATE
+     animals
+SET
+     owner_id = 1
+WHERE
+     NAME = 'Agumon';
+
+UPDATE
+     animals
+SET
+     owner_id = 2
+WHERE
+     NAME IN ('Pikachu', 'Gabumon');
+
+UPDATE
+     animals
+SET
+     owner_id = 3
+WHERE
+     NAME IN ('Devimon', 'Plantmon');
+
+UPDATE
+     animals
+SET
+     owner_id = 4
+WHERE
+     NAME IN ('Charmander', 'Squirtle', 'Blossom');
+
+UPDATE
+     animals
+SET
+     owner_id = 5
+WHERE
+     NAME IN ('Angemon', 'Boarmon');

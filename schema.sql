@@ -7,3 +7,8 @@ CREATE TABLE animals (
     NEUTERED BOOLEAN,
     WEIGHT_KG FLOAT
 );
+
+ALTER TABLE
+    animals
+ADD
+    SPECIES VARCHAR(500)

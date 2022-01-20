@@ -112,7 +112,9 @@ ROLLBACK;
 SELECT
      *
 FROM
-     animals BEGIN;
+     animals;
+
+BEGIN;
 
 DELETE FROM
      animals
@@ -140,7 +142,8 @@ COMMIT;
 SELECT
      *
 FROM
-     animals
+     animals;
+
 SELECT
      COUNT(*)
 FROM

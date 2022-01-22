@@ -1,69 +1,83 @@
 /* Database schema to keep the structure of entire database. */
+CREATE DATABASE vet_clinic;
+
 CREATE TABLE animals (
-    ID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    NAME VARCHAR(500),
-    DATE_OF_BIRTH DATE,
-    ESCAPE_ATTEMPTS INT,
-    NEUTERED BOOLEAN,
-    WEIGHT_KG FLOAT
+    id INT,
+    name TEXT,
+    date_of_birth DATE,
+    escape_attempts INT,
+    neutered BOOLEAN,
+    weight_kg DECIMAL,
+    PRIMARY KEY(id)
 );
 
-ALTER TABLE
-    animals
-ADD
-    SPECIES VARCHAR(500);
+ALTER TABLE animals
+    ADD species VARCHAR;
 
 CREATE TABLE owners(
-    ID SERIAL PRIMARY KEY,
-    FULL_NAME VARCHAR(500),
-    AGE INT
+	id SERIAL PRIMARY KEY,                    
+	full_name VARCHAR,   
+	age INT
 );
 
-CREATE TABLE species(ID SERIAL PRIMARY KEY, NAME VARCHAR(500));
+CREATE TABLE species(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR
+);
 
-ALTER TABLE
-    animals DROP COLUMN ID;
+ALTER TABLE animals DROP species;
+ALTER TABLE animals
+	ADD COLUMN species_id INT,
+	ADD CONSTRAINT fk_species
+	FOREIGN KEY (species_id) 
+	REFERENCES species(id)
+;
 
-ALTER TABLE
-    animals
-ADD
-    COLUMN ID SERIAL PRIMARY KEY;
-
-ALTER TABLE
-    animals DROP COLUMN SPECIES;
-
-ALTER TABLE
-    animals
-ADD
-    COLUMN SPECIES_ID INT,
-ADD
-    CONSTRAINT FK_SPECIES FOREIGN KEY (SPECIES_ID) REFERENCES SPECIES (ID);
-
-ALTER TABLE
-    animals
-ADD
-    COLUMN OWNER_ID INT,
-ADD
-    CONSTRAINT FK_OWNERS FOREIGN KEY (OWNER_ID) REFERENCES owners (ID);
+ALTER TABLE animals 
+	ADD COLUMN owners_id INT,
+	ADD CONSTRAINT fk_owners
+	FOREIGN KEY (owners_id)
+	REFERENCES owners(id)
+; 
+SELECT * FROM animals;
 
 CREATE TABLE vets(
-    ID SERIAL PRIMARY KEY,
-    NAME TEXT,
-    AGE INT,
-    DATE DATE
+    id SERIAL PRIMARY KEY,
+    name VARCHAR,
+    age INT,
+    date_of_graduation DATE
 );
 
-CREATE TABLE specializations (
-    SPECIES_ID INT,
-    VETS_ID INT,
-    CONSTRAINT FK_SPECIES FOREIGN KEY(SPECIES_ID) REFERENCES species(ID) ON DELETE CASCADE,
-    CONSTRAINT FK_VETS FOREIGN KEY(VETS_ID) REFERENCES vets(ID) ON DELETE CASCADE
+CREATE TABLE specializations(
+	species_id INT,
+	vets_id INT,
+    FOREIGN KEY (species_id)
+        REFERENCES species(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+	FOREIGN KEY (vets_id)
+        REFERENCES vets(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+	PRIMARY KEY (species_id, vets_id)
 );
 
-CREATE TABLE visits (
-    ANIMALS_ID INT,
-    VETS_ID INT,
-    DATE DATE,
-    CONSTRAINT FK_ANIMALS FOREIGN KEY(ANIMALS_ID) REFERENCES animals(ID),
-    CONSTRAINT FK_VETS FOREIGN KEY(VETS_ID) REFERENCES vets(ID)
+CREATE TABLE visits(
+	animals_id INT,
+	vets_id INT,
+    date_of_visit DATE,
+    id INT GENERATED ALWAYS AS IDENTITY,
+	FOREIGN KEY (animals_id)
+        REFERENCES animals (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+	FOREIGN KEY (vets_id)
+        REFERENCES vets (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    PRIMARY KEY(id)
 );
+
+CREATE INDEX animals_id_index ON visits (animals_id);
+CREATE INDEX vets_id_index ON visits (vets_id);
+CREATE INDEX owners_email_index ON owners (email);

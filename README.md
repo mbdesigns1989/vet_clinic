@@ -1,6 +1,7 @@
 # Vet Clinic Database
 
 > Relational(SQL) for a Veterinary Clinic
+> Database project
 
 ## Getting Started
 
